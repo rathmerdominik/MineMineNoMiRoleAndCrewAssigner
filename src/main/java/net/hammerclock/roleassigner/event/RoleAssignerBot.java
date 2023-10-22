@@ -41,9 +41,16 @@ public class RoleAssignerBot {
 
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-		IEntityStats entityStats = EntityStatsCapability.get(event.getPlayer());
-		PlayerLink playerLink = LinkManager.getLink(null, event.getPlayer().getUUID());
-		setPlayerRoles(entityStats, playerLink);
+		if (LinkManager.isPlayerLinked(event.getPlayer().getUUID())) {
+			IEntityStats entityStats = EntityStatsCapability.get(event.getPlayer());
+			PlayerLink playerLink = LinkManager.getLink(null, event.getPlayer().getUUID());
+			setPlayerRoles(entityStats, playerLink);
+		} else {
+			LOGGER.warn(
+					String.format(
+							"User with the UUID %s is not Linked! Consider enforcing linking in Discord Integrations Config. Cannot set Roles!",
+							event.getPlayer().getUUID()));
+		}
 	}
 
 	public void setPlayerRoles(IEntityStats entityStats, PlayerLink player) {
