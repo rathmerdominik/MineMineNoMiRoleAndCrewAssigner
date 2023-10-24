@@ -1,34 +1,42 @@
 package net.hammerclock.roleassigner.event;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.electronwill.nightconfig.core.UnmodifiableConfig;
+import com.electronwill.nightconfig.core.UnmodifiableConfig.Entry;
+
+import de.erdbeerbaerlp.dcintegration.common.DiscordIntegration;
+import de.erdbeerbaerlp.dcintegration.common.storage.linking.LinkManager;
+import de.erdbeerbaerlp.dcintegration.common.storage.linking.PlayerLink;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.hammerclock.roleassigner.RoleAssigner;
 import net.hammerclock.roleassigner.config.CommonConfig;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
 import xyz.pixelatedw.mineminenomi.api.events.SetPlayerDetailsEvent;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
 import xyz.pixelatedw.mineminenomi.init.ModValues;
-import de.erdbeerbaerlp.dcintegration.common.DiscordIntegration;
-import de.erdbeerbaerlp.dcintegration.common.storage.linking.LinkManager;
-import de.erdbeerbaerlp.dcintegration.common.storage.linking.PlayerLink;
 
 @Mod(RoleAssigner.PROJECT_ID)
-public class RoleAssignerBot {
+public class RoleAssignerEvent {
 	public static final Logger LOGGER = LogManager.getLogger(RoleAssigner.PROJECT_ID);
 	public static final CommonConfig CONFIG = CommonConfig.INSTANCE;
 
 	@SubscribeEvent
 	public void onPlayerDetailsSet(SetPlayerDetailsEvent event) {
+
 		if (LinkManager.isPlayerLinked(event.getPlayer().getUUID())) {
 			PlayerLink playerLink = LinkManager.getLink(null, event.getPlayer().getUUID());
+			deleteRolesFromPlayer(playerLink);
 			setPlayerRoles(event.getEntityStats(), playerLink);
 
 		} else {
@@ -44,6 +52,7 @@ public class RoleAssignerBot {
 		if (LinkManager.isPlayerLinked(event.getPlayer().getUUID())) {
 			IEntityStats entityStats = EntityStatsCapability.get(event.getPlayer());
 			PlayerLink playerLink = LinkManager.getLink(null, event.getPlayer().getUUID());
+			deleteRolesFromPlayer(playerLink);
 			setPlayerRoles(entityStats, playerLink);
 		} else {
 			LOGGER.warn(
@@ -113,6 +122,19 @@ public class RoleAssignerBot {
 		if (roleId != 0l) {
 			guild.addRoleToMember(UserSnowflake.fromId(member.getUser().getId()),
 					DiscordIntegration.INSTANCE.getJDA().getRoleById(roleId)).queue();
+		}
+	}
+
+	private void deleteRolesFromPlayer(PlayerLink player) {
+		Guild guild = DiscordIntegration.INSTANCE.getChannel().getGuild();
+		Member member = DiscordIntegration.INSTANCE.getMemberById(player.discordID);
+
+		List<Role> memberRoles = member.getRoles();
+
+		for (Role roleId : memberRoles) {
+			if (CONFIG.getAllRoleIds().contains(roleId.getIdLong())) {
+				guild.removeRoleFromMember(UserSnowflake.fromId(member.getUser().getId()), roleId).queue();
+			}
 		}
 	}
 

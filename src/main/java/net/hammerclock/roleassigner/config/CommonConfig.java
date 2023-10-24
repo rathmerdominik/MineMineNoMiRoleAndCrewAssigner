@@ -2,6 +2,8 @@ package net.hammerclock.roleassigner.config;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -133,6 +135,28 @@ public class CommonConfig {
 
 	public Long getSwordsManRoleId() {
 		return swordsManRoleId.get();
+	}
+
+	public HashSet<Long> getAllRoleIds() {
+
+		HashSet<Long> roles = new HashSet<>(Arrays.asList(
+				this.getArtOfWeatherRoleId(),
+				this.getBlackLegRoleId(),
+				this.getBountyHunterRoleId(),
+				this.getBrawlerRoleId(),
+				this.getCyborgRoleId(),
+				this.getDoctorRoleId(),
+				this.getFishManRoleId(),
+				this.getHumanRoleId(),
+				this.getMarineRoleId(),
+				this.getMinkRoleId(),
+				this.getPirateRoleId(),
+				this.getRevolutionArmyRoleId(),
+				this.getSniperRoleId(),
+				this.getSwordsManRoleId()));
+
+		return roles;
+
 	}
 
 }
