@@ -87,7 +87,7 @@ public class CrewAssignerEvent {
 
 	private void createOrUpdateCrew(Crew crew, @Nullable JollyRoger jollyRoger, @Nullable Boolean deleteChannel,
 			@Nullable PlayerEntity playerToJoin, @Nullable PlayerEntity playerToLeave) {
-		LOGGER.info(crew.getName());
+
 		Guild GUILD = DiscordIntegration.INSTANCE.getChannel().getGuild();
 		Long existentChannel = 0L;
 		List<Member> members = crew.getMembers();
