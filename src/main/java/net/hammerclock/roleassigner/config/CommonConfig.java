@@ -37,6 +37,13 @@ public class CommonConfig {
 	private ForgeConfigSpec.ConfigValue<Long> doctorRoleId;
 	private ForgeConfigSpec.ConfigValue<Long> swordsManRoleId;
 
+	// Pirate Crews
+	private ForgeConfigSpec.ConfigValue<Long> crewForumChannelId;
+	private ForgeConfigSpec.ConfigValue<Boolean> syncCrewMembers;
+	private ForgeConfigSpec.ConfigValue<Boolean> syncCrewBanner;
+	private ForgeConfigSpec.ConfigValue<Boolean> showCaptain;
+	private ForgeConfigSpec.ConfigValue<Boolean> showCreationDate;
+
 	static {
 		Pair<CommonConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
 
@@ -60,15 +67,15 @@ public class CommonConfig {
 		this.cyborgRoleId = builder.define("Cyborg Role Id", 0L);
 		this.fishManRoleId = builder.define("Fishman Role Id", 0L);
 		this.humanRoleId = builder.define("Human Role Id", 0L);
-
 		builder.pop();
+
 		builder.push("Factions");
 		this.marineRoleId = builder.define("Marine Role Id", 0L);
 		this.revolutionArmyRoleId = builder.define("Revolution Army Role Id", 0L);
 		this.bountyHunterRoleId = builder.define("Bounty Hunter Role Id", 0L);
 		this.pirateRoleId = builder.define("Pirate Role Id", 0L);
-
 		builder.pop();
+
 		builder.push("Fighting Styles");
 		this.blackLegRoleId = builder.define("Black Leg Role Id", 0L);
 		this.artOfWeatherRoleId = builder.define("Art of Weather Role Id", 0L);
@@ -76,9 +83,17 @@ public class CommonConfig {
 		this.sniperRoleId = builder.define("Sniper Role Id", 0L);
 		this.doctorRoleId = builder.define("Doctor Role Id", 0L);
 		this.swordsManRoleId = builder.define("Swords Man Role Id", 0L);
-
 		builder.pop();
 
+		builder.push("Pirate Crews");
+		this.crewForumChannelId = builder
+				.comment("Has to be a Forum channel! Therefore your server MUST be a community server!")
+				.define("Crew Forum Channel Id", 0L);
+		this.syncCrewBanner = builder.define("Sync Crew Banner", true);
+		this.syncCrewMembers = builder.define("Sync Crew Members", true);
+		this.showCaptain = builder.define("Show Captain of the crew", true);
+		this.showCreationDate = builder.define("Show Crew Creation Date", true);
+		builder.pop();
 	}
 
 	public Long getMinkRoleId() {
@@ -135,6 +150,26 @@ public class CommonConfig {
 
 	public Long getSwordsManRoleId() {
 		return swordsManRoleId.get();
+	}
+
+	public Long getCrewForumChannelId() {
+		return crewForumChannelId.get();
+	}
+
+	public Boolean getSyncCrewMembers() {
+		return syncCrewMembers.get();
+	}
+
+	public Boolean getSyncCrewBanner() {
+		return syncCrewBanner.get();
+	}
+
+	public Boolean getShowCaptain() {
+		return showCaptain.get();
+	}
+
+	public Boolean getShowCreationDate() {
+		return showCreationDate.get();
 	}
 
 	public HashSet<Long> getAllRoleIds() {

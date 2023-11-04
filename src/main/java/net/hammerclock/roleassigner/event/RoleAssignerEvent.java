@@ -16,25 +16,22 @@ import net.hammerclock.roleassigner.RoleAssigner;
 import net.hammerclock.roleassigner.config.CommonConfig;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+
 import xyz.pixelatedw.mineminenomi.api.events.SetPlayerDetailsEvent;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
 import xyz.pixelatedw.mineminenomi.init.ModValues;
 
-@Mod(RoleAssigner.PROJECT_ID)
 public class RoleAssignerEvent {
 	public static final Logger LOGGER = LogManager.getLogger(RoleAssigner.PROJECT_ID);
 	public static final CommonConfig CONFIG = CommonConfig.INSTANCE;
 
 	@SubscribeEvent
 	public void onPlayerDetailsSet(SetPlayerDetailsEvent event) {
-
 		if (LinkManager.isPlayerLinked(event.getPlayer().getUUID())) {
 			PlayerLink playerLink = LinkManager.getLink(null, event.getPlayer().getUUID());
 			deleteRolesFromPlayer(playerLink);
 			setPlayerRoles(event.getEntityStats(), playerLink);
-
 		} else {
 			LOGGER.warn(
 					String.format(
@@ -88,7 +85,7 @@ public class RoleAssignerEvent {
 				ignoreOrSetRole(guild, CONFIG.getCyborgRoleId(), member);
 				break;
 			case ModValues.MINK:
-				ignoreOrSetRole(guild, CONFIG.getHumanRoleId(), member);
+				ignoreOrSetRole(guild, CONFIG.getMinkRoleId(), member);
 				break;
 		}
 
