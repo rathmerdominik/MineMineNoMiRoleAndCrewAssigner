@@ -20,7 +20,7 @@ Those automatically update as well, when a Character Creation Book has been used
 <p align="center"> <img src="crews.png"> </p>
 
 <p align="center">
-The second part of the mod consists in synchronizing crews of the Mine Mine no Mi Mod into a Discord Forum Channel.
+The second part of the mod consists of synchronizing crews of the Mine Mine no Mi Mod into a Discord Forum Channel.
 </p>
 
 <p align="center">
@@ -50,7 +50,7 @@ cd MineMineNoMiRoleAndCrewAssigner
 ./gradlew build
 cd build/libs
 ```
-
+You can now just take the jar file out of this directory and place it under the `mods/` folder on your server.
 # Config Options
 
 ```toml
