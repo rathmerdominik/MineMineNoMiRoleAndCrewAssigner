@@ -51,6 +51,8 @@ cd MineMineNoMiRoleAndCrewAssigner
 cd build/libs
 ```
 You can now just take the jar file out of this directory and place it under the `mods/` folder on your server.
+
+This mod requires Discord Integration 3.0.3 to be installed and setup on your server!
 # Config Options
 
 ```toml
