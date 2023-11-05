@@ -30,7 +30,7 @@ This also synchronizes crew kicking, leaving, captains and captain change, membe
 
 # Important
 
-In order for the mod to work several changes to the main Mine Mine no Mi mod had to be made. 
+In order for the addon to work several changes to the main Mine Mine no Mi mod had to be made.  
 Those changes have already been committed by me to the main mod and will be available with the next Update.
 Specifics are in [Technical Details](#technical-details).  
 
@@ -38,10 +38,10 @@ It is imperative that for now this custom version is used. Changes in there are 
 Players can still use the normal Mine Mine no Mi Version.
 
 The custom version can be found under `libs/mine-mine-no-mi-1.16.5-0.9.5-HAMMERCLOCK.jar`.  
-The mod will not work with any other version.
+The addon will not work with any other version.
 
 I HAVE EXPLICIT PERMISSION BY THE CREATOR OF THE MINE MINE NO MI MOD TO REDISTRIBUTE THIS.  
-YOU DO NOT! THEREFORE EVERY FURTHER REDISTRIBUTION HAS TO HAPPEN BY REFERENCING TO THIS PAGE
+YOU DO NOT! THEREFORE EVERY FURTHER REDISTRIBUTION HAS TO HAPPEN BY REFERENCING TO THIS PAGE!
 # Installation
 
 ```
