@@ -16,8 +16,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 @Mod(RoleAssigner.PROJECT_ID)
 public class RoleAssigner {
     public static final Logger LOGGER = LogManager.getLogger(RoleAssigner.PROJECT_ID);
