@@ -21,13 +21,13 @@ modId = "roleassigner" #mandatory
 # see the associated build.gradle script for how to populate this completely automatically during a build
 version = "${file.jarVersion}" #mandatory
 # A display name for the mod
-displayName = "Mine Mine no Mi: Role Assigner" #mandatory
+displayName = "Mine Mine no Mi: Role and Crew Assigner" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile = "examplemod.png" #optional
+logoFile = "roleassign.png" #optional
 # A text field displayed in the mod UI
 credits = "DerHammerclock" #optional
 # A text field displayed in the mod UI
@@ -35,14 +35,14 @@ authors = "DerHammerclock" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description = '''
 Synchronize Mine Mine no Mi data like Race, Faction and Fighting Style with your Discord Server!
+Also allows you to display your crews in a Forum Channel.
 '''
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.mineminenomi]] #optional
-modId = "mineminenomi"    #mandatory
-mandatory = true          #mandatory
-versionRange = "[0.9.5,)" #mandatory
+[[dependencies.mineminenomi]] 
+modId = "mineminenomi"    
+mandatory = true          
+versionRange = "[0.9.5,)" 
 ordering = "BEFORE"
-side = "BOTH"
+side = "SERVER"
 [[dependencies.dcintegration]]
 modId = "dcintegration"
 mandatory = true
