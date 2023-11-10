@@ -11,6 +11,7 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.LongValue;
 
 public class CommonConfig {
 	public static final Path CONFIG_PATH = Paths.get("config", "mmnm-roleassign-common.toml");
@@ -18,31 +19,32 @@ public class CommonConfig {
 	public static final ForgeConfigSpec CONFIG;
 
 	// Races
-	private ForgeConfigSpec.ConfigValue<Long> minkRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> cyborgRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> fishManRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> humanRoleId;
+	private ForgeConfigSpec.LongValue minkRoleId;
+	private ForgeConfigSpec.LongValue cyborgRoleId;
+	private ForgeConfigSpec.LongValue fishManRoleId;
+	private ForgeConfigSpec.LongValue humanRoleId;
 
 	// Factions
-	private ForgeConfigSpec.ConfigValue<Long> marineRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> revolutionArmyRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> bountyHunterRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> pirateRoleId;
+	private ForgeConfigSpec.LongValue marineRoleId;
+	private ForgeConfigSpec.BooleanValue syncMarineRanks;
+	private ForgeConfigSpec.LongValue revolutionArmyRoleId;
+	private ForgeConfigSpec.LongValue bountyHunterRoleId;
+	private ForgeConfigSpec.LongValue pirateRoleId;
 
 	// Fighting styles
-	private ForgeConfigSpec.ConfigValue<Long> blackLegRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> artOfWeatherRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> brawlerRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> sniperRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> doctorRoleId;
-	private ForgeConfigSpec.ConfigValue<Long> swordsManRoleId;
+	private ForgeConfigSpec.LongValue blackLegRoleId;
+	private ForgeConfigSpec.LongValue artOfWeatherRoleId;
+	private ForgeConfigSpec.LongValue brawlerRoleId;
+	private ForgeConfigSpec.LongValue sniperRoleId;
+	private ForgeConfigSpec.LongValue doctorRoleId;
+	private ForgeConfigSpec.LongValue swordsManRoleId;
 
 	// Pirate Crews
-	private ForgeConfigSpec.ConfigValue<Long> crewForumChannelId;
-	private ForgeConfigSpec.ConfigValue<Boolean> syncCrewMembers;
-	private ForgeConfigSpec.ConfigValue<Boolean> syncCrewBanner;
-	private ForgeConfigSpec.ConfigValue<Boolean> showCaptain;
-	private ForgeConfigSpec.ConfigValue<Boolean> showCreationDate;
+	private ForgeConfigSpec.LongValue crewForumChannelId;
+	private ForgeConfigSpec.BooleanValue syncCrewMembers;
+	private ForgeConfigSpec.BooleanValue syncCrewBanner;
+	private ForgeConfigSpec.BooleanValue showCaptain;
+	private ForgeConfigSpec.BooleanValue showCreationDate;
 
 	static {
 		Pair<CommonConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
@@ -63,30 +65,30 @@ public class CommonConfig {
 		builder.comment("To disable a specific Role from syncing just do not change the ID on the config option");
 
 		builder.push("Races");
-		this.minkRoleId = builder.define("Mink Role Id", 0L);
-		this.cyborgRoleId = builder.define("Cyborg Role Id", 0L);
-		this.fishManRoleId = builder.define("Fishman Role Id", 0L);
-		this.humanRoleId = builder.define("Human Role Id", 0L);
+		this.minkRoleId = (LongValue) builder.define("Mink Role Id", 0L);
+		this.cyborgRoleId = (LongValue) builder.define("Cyborg Role Id", 0L);
+		this.fishManRoleId = (LongValue) builder.define("Fishman Role Id", 0L);
+		this.humanRoleId = (LongValue) builder.define("Human Role Id", 0L);
 		builder.pop();
 
 		builder.push("Factions");
-		this.marineRoleId = builder.define("Marine Role Id", 0L);
-		this.revolutionArmyRoleId = builder.define("Revolution Army Role Id", 0L);
-		this.bountyHunterRoleId = builder.define("Bounty Hunter Role Id", 0L);
-		this.pirateRoleId = builder.define("Pirate Role Id", 0L);
+		this.marineRoleId = (LongValue) builder.define("Marine Role Id", 0L);
+		this.revolutionArmyRoleId = (LongValue) builder.define("Revolution Army Role Id", 0L);
+		this.bountyHunterRoleId = (LongValue) builder.define("Bounty Hunter Role Id", 0L);
+		this.pirateRoleId = (LongValue) builder.define("Pirate Role Id", 0L);
 		builder.pop();
 
 		builder.push("Fighting Styles");
-		this.blackLegRoleId = builder.define("Black Leg Role Id", 0L);
-		this.artOfWeatherRoleId = builder.define("Art of Weather Role Id", 0L);
-		this.brawlerRoleId = builder.define("Brawler Role Id", 0L);
-		this.sniperRoleId = builder.define("Sniper Role Id", 0L);
-		this.doctorRoleId = builder.define("Doctor Role Id", 0L);
-		this.swordsManRoleId = builder.define("Swords Man Role Id", 0L);
+		this.blackLegRoleId = (LongValue) builder.define("Black Leg Role Id", 0L);
+		this.artOfWeatherRoleId = (LongValue) builder.define("Art of Weather Role Id", 0L);
+		this.brawlerRoleId = (LongValue) builder.define("Brawler Role Id", 0L);
+		this.sniperRoleId = (LongValue) builder.define("Sniper Role Id", 0L);
+		this.doctorRoleId = (LongValue) builder.define("Doctor Role Id", 0L);
+		this.swordsManRoleId = (LongValue) builder.define("Swords Man Role Id", 0L);
 		builder.pop();
 
 		builder.push("Pirate Crews");
-		this.crewForumChannelId = builder
+		this.crewForumChannelId = (LongValue) builder
 				.comment("Has to be a Forum channel! Therefore your server MUST be a community server!")
 				.define("Crew Forum Channel Id", 0L);
 		this.syncCrewBanner = builder.define("Sync Crew Banner", true);
@@ -172,22 +174,16 @@ public class CommonConfig {
 		return showCreationDate.get();
 	}
 
+	public Boolean getSyncMarineRanks() {
+		return syncMarineRanks.get();
+	}
+
 	public HashSet<Long> getAllRoleIds() {
 
-		HashSet<Long> roles = new HashSet<>(Arrays.asList(
-				this.getArtOfWeatherRoleId(),
-				this.getBlackLegRoleId(),
-				this.getBountyHunterRoleId(),
-				this.getBrawlerRoleId(),
-				this.getCyborgRoleId(),
-				this.getDoctorRoleId(),
-				this.getFishManRoleId(),
-				this.getHumanRoleId(),
-				this.getMarineRoleId(),
-				this.getMinkRoleId(),
-				this.getPirateRoleId(),
-				this.getRevolutionArmyRoleId(),
-				this.getSniperRoleId(),
+		HashSet<Long> roles = new HashSet<>(Arrays.asList(this.getArtOfWeatherRoleId(), this.getBlackLegRoleId(),
+				this.getBountyHunterRoleId(), this.getBrawlerRoleId(), this.getCyborgRoleId(), this.getDoctorRoleId(),
+				this.getFishManRoleId(), this.getHumanRoleId(), this.getMarineRoleId(), this.getMinkRoleId(),
+				this.getPirateRoleId(), this.getRevolutionArmyRoleId(), this.getSniperRoleId(),
 				this.getSwordsManRoleId()));
 
 		return roles;
