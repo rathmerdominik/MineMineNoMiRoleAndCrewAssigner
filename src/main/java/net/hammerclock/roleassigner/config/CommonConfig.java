@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -26,7 +27,6 @@ public class CommonConfig {
 
 	// Factions
 	private ForgeConfigSpec.LongValue marineRoleId;
-	private ForgeConfigSpec.BooleanValue syncMarineRanks;
 	private ForgeConfigSpec.LongValue revolutionArmyRoleId;
 	private ForgeConfigSpec.LongValue bountyHunterRoleId;
 	private ForgeConfigSpec.LongValue pirateRoleId;
@@ -45,6 +45,26 @@ public class CommonConfig {
 	private ForgeConfigSpec.BooleanValue syncCrewBanner;
 	private ForgeConfigSpec.BooleanValue showCaptain;
 	private ForgeConfigSpec.BooleanValue showCreationDate;
+
+	// Marine Ranks
+	private ForgeConfigSpec.LongValue marineChoreBoyRoleId;
+	private ForgeConfigSpec.LongValue marineSeaManRoleId;
+	private ForgeConfigSpec.LongValue marinePettyOfficerRoleId;
+	private ForgeConfigSpec.LongValue marineLieutenantRoleId;
+	private ForgeConfigSpec.LongValue marineCommanderRoleId;
+	private ForgeConfigSpec.LongValue marineCaptainRoleId;
+	private ForgeConfigSpec.LongValue marineCommodoreRoleId;
+	private ForgeConfigSpec.LongValue marineViceAdmiralRoleId;
+	private ForgeConfigSpec.LongValue marineAdmiralRoleId;
+	private ForgeConfigSpec.LongValue marineFleetAdmiralRoleId;
+
+	// Revolutionary Ranks
+	private ForgeConfigSpec.LongValue revoMemberRoleId;
+	private ForgeConfigSpec.LongValue revoOfficerRoleId;
+	private ForgeConfigSpec.LongValue revoCommanderRoleId;
+	private ForgeConfigSpec.LongValue revoChiefRoleId;
+	private ForgeConfigSpec.LongValue revoSupremeCommanderRoleId;
+
 
 	static {
 		Pair<CommonConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
@@ -65,129 +85,242 @@ public class CommonConfig {
 		builder.comment("To disable a specific Role from syncing just do not change the ID on the config option");
 
 		builder.push("Races");
-		this.minkRoleId = (LongValue) builder.define("Mink Role Id", 0L);
-		this.cyborgRoleId = (LongValue) builder.define("Cyborg Role Id", 0L);
-		this.fishManRoleId = (LongValue) builder.define("Fishman Role Id", 0L);
-		this.humanRoleId = (LongValue) builder.define("Human Role Id", 0L);
+		
+		this.minkRoleId = builder.defineInRange("Mink Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.cyborgRoleId = builder.defineInRange("Cyborg Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.fishManRoleId = builder.defineInRange("Fishman Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.humanRoleId = builder.defineInRange("Human Role Id", 0L, 0L, Long.MAX_VALUE);
 		builder.pop();
 
 		builder.push("Factions");
-		this.marineRoleId = (LongValue) builder.define("Marine Role Id", 0L);
-		this.revolutionArmyRoleId = (LongValue) builder.define("Revolution Army Role Id", 0L);
-		this.bountyHunterRoleId = (LongValue) builder.define("Bounty Hunter Role Id", 0L);
-		this.pirateRoleId = (LongValue) builder.define("Pirate Role Id", 0L);
+		this.marineRoleId = builder.defineInRange("Marine Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.revolutionArmyRoleId = builder.defineInRange("Revolution Army Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.bountyHunterRoleId = builder.defineInRange("Bounty Hunter Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.pirateRoleId = builder.defineInRange("Pirate Role Id", 0L, 0L, Long.MAX_VALUE);
 		builder.pop();
 
 		builder.push("Fighting Styles");
-		this.blackLegRoleId = (LongValue) builder.define("Black Leg Role Id", 0L);
-		this.artOfWeatherRoleId = (LongValue) builder.define("Art of Weather Role Id", 0L);
-		this.brawlerRoleId = (LongValue) builder.define("Brawler Role Id", 0L);
-		this.sniperRoleId = (LongValue) builder.define("Sniper Role Id", 0L);
-		this.doctorRoleId = (LongValue) builder.define("Doctor Role Id", 0L);
-		this.swordsManRoleId = (LongValue) builder.define("Swords Man Role Id", 0L);
+		this.blackLegRoleId = builder.defineInRange("Black Leg Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.artOfWeatherRoleId = builder.defineInRange("Art of Weather Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.brawlerRoleId = builder.defineInRange("Brawler Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.sniperRoleId = builder.defineInRange("Sniper Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.doctorRoleId = builder.defineInRange("Doctor Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.swordsManRoleId = builder.defineInRange("Swords Man Role Id", 0L, 0L, Long.MAX_VALUE);
 		builder.pop();
 
 		builder.push("Pirate Crews");
-		this.crewForumChannelId = (LongValue) builder
-				.comment("Has to be a Forum channel! Therefore your server MUST be a community server!")
-				.define("Crew Forum Channel Id", 0L);
+		this.crewForumChannelId = builder
+				.comment("Has to be a Forum channel! Therefore your server MUST be a community server if you want to use this feature!")
+				.defineInRange("Crew Forum Channel Id", 0L, 0L, Long.MAX_VALUE);
 		this.syncCrewBanner = builder.define("Sync Crew Banner", true);
 		this.syncCrewMembers = builder.define("Sync Crew Members", true);
 		this.showCaptain = builder.define("Show Captain of the crew", true);
 		this.showCreationDate = builder.define("Show Crew Creation Date", true);
 		builder.pop();
+
+		builder.push("Marine Ranks");
+		this.marineChoreBoyRoleId = builder.defineInRange("Marine Chore Boy Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marineSeaManRoleId = builder.defineInRange("Marine Sea Man Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marinePettyOfficerRoleId = builder.defineInRange("Marine Petty Officer Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marineLieutenantRoleId = builder.defineInRange("Marine Lieutenant Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marineCommanderRoleId = builder.defineInRange("Marine Commander Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marineCaptainRoleId = builder.defineInRange("Marine Captain Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marineCommodoreRoleId = builder.defineInRange("Marine Commodore Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marineViceAdmiralRoleId= builder.defineInRange("Marine Vice Admiral Man Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marineAdmiralRoleId = builder.defineInRange("Marine Admiral Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.marineFleetAdmiralRoleId = builder.defineInRange("Marine Fleet Admiral Role Id", 0L, 0L, Long.MAX_VALUE);
+		builder.pop();
+
+		builder.push("Revolutionary Ranks");
+		this.revoMemberRoleId = builder.defineInRange("Revolutionary Army Member Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.revoOfficerRoleId = builder.defineInRange("Revolutionary Army Officer Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.revoCommanderRoleId = builder.defineInRange("Revolutionary Army Commander Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.revoChiefRoleId = builder.defineInRange("Revolutionary Army Chief of Staff Role Id", 0L, 0L, Long.MAX_VALUE);
+		this.revoSupremeCommanderRoleId = builder.defineInRange("Revolutionary Army Supreme Commander Role Id", 0L, 0L, Long.MAX_VALUE);
+		builder.pop();
 	}
 
-	public Long getMinkRoleId() {
+	// Race getters
+
+	public long getMinkRoleId() {
 		return minkRoleId.get();
 	}
 
-	public Long getCyborgRoleId() {
+	public long getCyborgRoleId() {
 		return cyborgRoleId.get();
 	}
 
-	public Long getFishManRoleId() {
+	public long getFishManRoleId() {
 		return fishManRoleId.get();
 	}
 
-	public Long getHumanRoleId() {
+	public long getHumanRoleId() {
 		return humanRoleId.get();
 	}
 
-	public Long getMarineRoleId() {
+	// Factions getters
+
+	public long getMarineRoleId() {
 		return marineRoleId.get();
 	}
 
-	public Long getRevolutionArmyRoleId() {
+	public long getRevolutionArmyRoleId() {
 		return revolutionArmyRoleId.get();
 	}
 
-	public Long getBountyHunterRoleId() {
+	public long getBountyHunterRoleId() {
 		return bountyHunterRoleId.get();
 	}
 
-	public Long getPirateRoleId() {
+	public long getPirateRoleId() {
 		return pirateRoleId.get();
 	}
 
-	public Long getBlackLegRoleId() {
+	// Fighting Style getters
+
+	public long getBlackLegRoleId() {
 		return blackLegRoleId.get();
 	}
 
-	public Long getArtOfWeatherRoleId() {
+	public long getArtOfWeatherRoleId() {
 		return artOfWeatherRoleId.get();
 	}
 
-	public Long getBrawlerRoleId() {
+	public long getBrawlerRoleId() {
 		return brawlerRoleId.get();
 	}
 
-	public Long getSniperRoleId() {
+	public long getSniperRoleId() {
 		return sniperRoleId.get();
 	}
 
-	public Long getDoctorRoleId() {
+	public long getDoctorRoleId() {
 		return doctorRoleId.get();
 	}
 
-	public Long getSwordsManRoleId() {
+	public long getSwordsManRoleId() {
 		return swordsManRoleId.get();
 	}
 
-	public Long getCrewForumChannelId() {
+	// Crew getters
+	
+	public long getCrewForumChannelId() {
 		return crewForumChannelId.get();
 	}
 
-	public Boolean getSyncCrewMembers() {
+	public boolean getSyncCrewMembers() {
 		return syncCrewMembers.get();
 	}
 
-	public Boolean getSyncCrewBanner() {
+	public boolean getSyncCrewBanner() {
 		return syncCrewBanner.get();
 	}
 
-	public Boolean getShowCaptain() {
+	public boolean getShowCaptain() {
 		return showCaptain.get();
 	}
 
-	public Boolean getShowCreationDate() {
+	public boolean getShowCreationDate() {
 		return showCreationDate.get();
 	}
 
-	public Boolean getSyncMarineRanks() {
-		return syncMarineRanks.get();
+	// Marine getters
+
+	public long getMarineChoreBoyRoleId() {
+		return marineChoreBoyRoleId.get();
 	}
 
-	public HashSet<Long> getAllRoleIds() {
+	public long getMarineSeaManRoleId() {
+		return marineSeaManRoleId.get();
+	}
 
-		HashSet<Long> roles = new HashSet<>(Arrays.asList(this.getArtOfWeatherRoleId(), this.getBlackLegRoleId(),
-				this.getBountyHunterRoleId(), this.getBrawlerRoleId(), this.getCyborgRoleId(), this.getDoctorRoleId(),
-				this.getFishManRoleId(), this.getHumanRoleId(), this.getMarineRoleId(), this.getMinkRoleId(),
-				this.getPirateRoleId(), this.getRevolutionArmyRoleId(), this.getSniperRoleId(),
-				this.getSwordsManRoleId()));
+	public long getMarinePettyOfficerRoleId() {
+		return marinePettyOfficerRoleId.get();
+	}
 
-		return roles;
+	public long getMarineLieutenantRoleId() {
+		return marineLieutenantRoleId.get();
+	}
 
+	public long getMarineCommanderRoleId() {
+		return marineCommanderRoleId.get();
+	}
+
+	public long getMarineCaptainRoleId() {
+		return marineCaptainRoleId.get();
+	}
+
+	public long getMarineCommodoreRoleId() {
+		return marineCommodoreRoleId.get();
+	}
+
+	public long getMarineViceAdmiralRoleId() {
+		return marineViceAdmiralRoleId.get();
+	}
+
+	public long getMarineAdmiralRoleId() {
+		return marineAdmiralRoleId.get();
+	}
+
+	public long getMarineFleetAdmiralRoleId() {
+		return marineFleetAdmiralRoleId.get();
+	}
+
+	// Revolutionary Army getters
+
+	public long getRevoMemberRoleId() {
+		return revoMemberRoleId.get();
+	}
+
+	public long getRevoOfficerRoleId() {
+		return revoOfficerRoleId.get();
+	}
+
+	public long getRevoCommanderRoleId() {
+		return revoCommanderRoleId.get();
+	}
+
+	public long getRevoChiefRoleId() {
+		return revoChiefRoleId.get();
+	}
+
+	public long getRevoSupremeCommanderRoleId() {
+		return revoSupremeCommanderRoleId.get();
+	}
+
+	public Set<Long> getAllRoleIds() {
+		return new HashSet<>(Arrays.asList(
+				this.getArtOfWeatherRoleId(), 
+				this.getBlackLegRoleId(),
+				this.getBountyHunterRoleId(), 
+				this.getBrawlerRoleId(), 
+				this.getCyborgRoleId(), 
+				this.getDoctorRoleId(),
+				this.getFishManRoleId(), 
+				this.getHumanRoleId(), 
+				this.getMarineRoleId(), 
+				this.getMinkRoleId(),
+				this.getPirateRoleId(), 
+				this.getRevolutionArmyRoleId(), 
+				this.getSniperRoleId(),
+				this.getSwordsManRoleId(),
+				this.getMarineChoreBoyRoleId(),
+				this.getMarineSeaManRoleId(),
+				this.getMarinePettyOfficerRoleId(),
+				this.getMarineLieutenantRoleId(),
+				this.getMarineCommanderRoleId(),
+				this.getMarineCaptainRoleId(),
+				this.getMarineCommodoreRoleId(),
+				this.getMarineViceAdmiralRoleId(),
+				this.getMarineAdmiralRoleId(),
+				this.getMarineFleetAdmiralRoleId(),
+				this.getRevoMemberRoleId(),
+				this.getRevoOfficerRoleId(),
+				this.getRevoCommanderRoleId(),
+				this.getRevoChiefRoleId(),
+				this.getRevoSupremeCommanderRoleId()
+			)
+		);
 	}
 
 }

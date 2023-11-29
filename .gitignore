@@ -17,7 +17,6 @@ out
 build
 .gradle
 
-
 # other
 eclipse
 run
@@ -29,3 +28,6 @@ forge*changelog.txt
 .history
 .vscode
 
+# Exclude because it is delivered by another repository
+libs/*
+!libs/.gitkeep

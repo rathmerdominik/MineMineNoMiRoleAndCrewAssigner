@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -45,11 +46,15 @@ public class CrewAssignerEvent {
 
 	@SubscribeEvent
 	public void onServerStartedEvent(FMLServerStartedEvent event) {
-		for (Crew crew : ExtendedWorldData.get().getCrews()) {
-			if (crew.getMembers().size() <= 0) {
-				continue;
+		if (ExtendedWorldData.get() != null) {
+			for (Crew crew : ExtendedWorldData.get().getCrews()) {
+				if (crew.getMembers().isEmpty()) {
+					continue;
+				}
+				this.createOrUpdateCrew(crew, null, null, null, null);
 			}
-			this.createOrUpdateCrew(crew, null, null, null, null);
+		} else {
+			LOGGER.error("ExtendedWorldData is null!");
 		}
 	}
 
@@ -88,7 +93,7 @@ public class CrewAssignerEvent {
 	private void createOrUpdateCrew(Crew crew, @Nullable JollyRoger jollyRoger, @Nullable Boolean deleteChannel,
 			@Nullable PlayerEntity playerToJoin, @Nullable PlayerEntity playerToLeave) {
 
-		Guild GUILD = DiscordIntegration.INSTANCE.getChannel().getGuild();
+		Guild guild = DiscordIntegration.INSTANCE.getChannel().getGuild();
 		Long existentChannel = 0L;
 		List<Member> members = crew.getMembers();
 		Member crewCaptain = crew.getCaptain();
@@ -102,12 +107,12 @@ public class CrewAssignerEvent {
 		}
 
 		if (CONFIG.getCrewForumChannelId() != 0L) {
-			ForumChannel channel = GUILD.getForumChannelById(CONFIG.getCrewForumChannelId());
+			ForumChannel channel = guild.getForumChannelById(CONFIG.getCrewForumChannelId());
 
 			for (ThreadChannel threadChannel : channel.getThreadChannels()) {
 				if (threadChannel.getName().equals(crew.getName())) {
 					existentChannel = threadChannel.getIdLong();
-					if (deleteChannel != null || members.size() <= 0) {
+					if (deleteChannel != null || members.isEmpty()) {
 						threadChannel.delete().queue();
 						this.reAddOrDeletePlayer(crew, playerToJoin, playerToLeave);
 						return;
@@ -115,22 +120,25 @@ public class CrewAssignerEvent {
 				}
 			}
 
-			String messageContent = "";
-			if (CONFIG.getShowCaptain()) {
-				messageContent += String.format("**Captain:** %s | %s\n\n",
-						crewCaptain.getUsername(),
-						getDiscordLinkOrNotLinked(crewCaptain));
+			StringBuilder messageContent = new StringBuilder();
+			if (CONFIG.getShowCaptain() && crewCaptain != null) {
+				messageContent.append(
+						String.format(
+								"**Captain:** %s | %s%n%n",
+								crewCaptain.getUsername(),
+								getDiscordLinkOrNotLinked(crewCaptain)));
 			}
 
 			if (CONFIG.getSyncCrewMembers()) {
-				messageContent = this.addCrewMembersToMessageContent(messageContent, crew, members, crewCaptain);
+				messageContent = this.addCrewMembersToMessageContent(messageContent, members, crewCaptain);
 			}
 
 			if (CONFIG.getShowCreationDate()) {
-				messageContent += String.format("**Creation Date:** %s", TimeFormat.DATE_TIME_SHORT.now());
+				messageContent.append(String.format("**Creation Date:** %s",
+						TimeFormat.DATE_TIME_SHORT.atInstant(Instant.ofEpochSecond(crew.getCreationDate()))));
 			}
 
-			MessageCreateBuilder messageBuilder = new MessageCreateBuilder().setContent(messageContent);
+			MessageCreateBuilder messageBuilder = new MessageCreateBuilder().setContent(messageContent.toString());
 
 			if (CONFIG.getSyncCrewBanner() && crew.getJollyRoger().getAsBufferedImage().isPresent()) {
 				if (jollyRoger == null) {
@@ -141,7 +149,7 @@ public class CrewAssignerEvent {
 			}
 
 			if (existentChannel != 0L) {
-				ThreadChannel threadChannel = GUILD.getThreadChannelById(existentChannel);
+				ThreadChannel threadChannel = guild.getThreadChannelById(existentChannel);
 				Message startMessage = threadChannel.retrieveStartMessage().complete();
 
 				startMessage.editMessage(MessageEditData.fromCreateData(messageBuilder.build())).queue();
@@ -153,7 +161,6 @@ public class CrewAssignerEvent {
 					messageBuilder.build())
 					.queue();
 			this.reAddOrDeletePlayer(crew, playerToJoin, playerToLeave);
-
 		}
 	}
 
@@ -168,19 +175,22 @@ public class CrewAssignerEvent {
 		}
 	}
 
-	private String addCrewMembersToMessageContent(String messageContent, Crew crew, List<Member> members,
+	private StringBuilder addCrewMembersToMessageContent(StringBuilder messageContent, List<Member> members,
 			Member captain) {
 		for (Member crewMember : members) {
-			if (CONFIG.getShowCaptain() && crewMember.getUsername() == captain.getUsername())
+			if (CONFIG.getShowCaptain() && crewMember.getUsername().equals(captain.getUsername())) {
 				continue;
+			}
 
-			messageContent += String.format("**Member:** %s | %s\n",
-					crewMember.getUsername(),
-					getDiscordLinkOrNotLinked(crewMember));
+			messageContent.append(
+					String.format(
+							"**Member:** %s | %s%n",
+							crewMember.getUsername(),
+							getDiscordLinkOrNotLinked(crewMember)));
 		}
 
 		if (members.size() > 1 || !CONFIG.getShowCaptain()) {
-			messageContent += "\n";
+			messageContent.append("\n");
 		}
 
 		return messageContent;
@@ -188,7 +198,11 @@ public class CrewAssignerEvent {
 
 	private MessageCreateBuilder addJollyRogerToMessageBuilder(MessageCreateBuilder messageBuilder,
 			JollyRoger jollyRoger) {
-		BufferedImage jollyRogerImage = jollyRoger.getAsBufferedImage().get();
+		if (!jollyRoger.getAsBufferedImage().isPresent()) {
+			LOGGER.error("Jolly Roger is not present! Will not add to the builder");
+			return messageBuilder;
+		}
+		BufferedImage jollyRogerImage = jollyRoger.getAsBufferedImage().orElseThrow(NullPointerException::new);
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			ImageIO.write(jollyRogerImage, "png", os);

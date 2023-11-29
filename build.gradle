@@ -128,7 +128,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     
     implementation('de.erdbeerbaerlp:dcintegration.common:3.0.4.1-j8')
-    implementation files('mine-mine-no-mi-0.9.5-HAMMER.jar')
+    implementation files('libs/mine-mine-no-mi-0.9.5-HAMMER.jar')
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
