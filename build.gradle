@@ -127,8 +127,8 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     
-    implementation('de.erdbeerbaerlp:dcintegration.common:3.0.3-j8')
-    implementation files('libs/mine-mine-no-mi-1.16.5-0.9.5-HAMMERCLOCK.jar')
+    implementation('de.erdbeerbaerlp:dcintegration.common:3.0.4.1-j8')
+    implementation files('mine-mine-no-mi-0.9.5-HAMMER.jar')
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
