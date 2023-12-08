@@ -41,11 +41,11 @@ Also allows you to display your crews in a Forum Channel.
 modId = "mineminenomi"    
 mandatory = true          
 versionRange = "[0.9.5,)" 
-ordering = "BEFORE"
+ordering = "AFTER"
 side = "SERVER"
 [[dependencies.dcintegration]]
 modId = "dcintegration"
 mandatory = true
-versionRange = "[3.0.3,)"
-ordering = "BEFORE"
+versionRange = "[3.0.5,)"
+ordering = "AFTER"
 side = "SERVER"
