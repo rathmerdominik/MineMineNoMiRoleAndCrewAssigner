@@ -11,10 +11,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
+import net.hammerclock.rolencrewassigner.RoleAndCrewAssigner;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CommonConfig {
-	public static final Path CONFIG_PATH = Paths.get("config", "mmnm-roleassign-common.toml");
+	public static final Path CONFIG_PATH = Paths.get("config", RoleAndCrewAssigner.CONFIG_NAME);
 	public static final CommonConfig INSTANCE;
 	public static final ForgeConfigSpec CONFIG;
 

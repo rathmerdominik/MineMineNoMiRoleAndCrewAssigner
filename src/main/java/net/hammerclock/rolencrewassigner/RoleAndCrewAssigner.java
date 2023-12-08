@@ -19,7 +19,8 @@ import org.apache.logging.log4j.Logger;
 @Mod(RoleAndCrewAssigner.PROJECT_ID)
 public class RoleAndCrewAssigner {
     public static final Logger LOGGER = LogManager.getLogger(RoleAndCrewAssigner.PROJECT_ID);
-    public static final String PROJECT_ID = "roleassigner";
+    public static final String PROJECT_ID = "rolencrewassign";
+    public static final String CONFIG_NAME = "mmnm-rolencrewassign-common.toml";
 
     public RoleAndCrewAssigner() {
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST,
@@ -28,8 +29,8 @@ public class RoleAndCrewAssigner {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         ModLoadingContext context = ModLoadingContext.get();
 
-        context.registerConfig(Type.COMMON, CommonConfig.CONFIG, "mmnm-roleassign-common.toml");
-        
+        context.registerConfig(Type.COMMON, CommonConfig.CONFIG, CONFIG_NAME);
+
         MinecraftForge.EVENT_BUS.register(new CrewAssignerEvent());
         MinecraftForge.EVENT_BUS.register(new RoleAssignerEvent());
         MinecraftForge.EVENT_BUS.register(this);
