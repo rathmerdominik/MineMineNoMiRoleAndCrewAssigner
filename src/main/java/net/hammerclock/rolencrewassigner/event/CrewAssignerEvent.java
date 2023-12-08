@@ -1,4 +1,4 @@
-package net.hammerclock.roleassigner.event;
+package net.hammerclock.rolencrewassigner.event;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -24,11 +24,9 @@ import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
 import net.dv8tion.jda.api.utils.TimeFormat;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
+import net.hammerclock.rolencrewassigner.RoleAndCrewAssigner;
+import net.hammerclock.rolencrewassigner.config.CommonConfig;
 import net.dv8tion.jda.api.utils.FileUpload;
-
-import net.hammerclock.roleassigner.RoleAssigner;
-import net.hammerclock.roleassigner.config.CommonConfig;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
@@ -41,7 +39,7 @@ import xyz.pixelatedw.mineminenomi.api.events.JollyRogerEvent;
 import xyz.pixelatedw.mineminenomi.data.world.ExtendedWorldData;
 
 public class CrewAssignerEvent {
-	public static final Logger LOGGER = LogManager.getLogger(RoleAssigner.PROJECT_ID);
+	public static final Logger LOGGER = LogManager.getLogger(RoleAndCrewAssigner.PROJECT_ID);
 	public static final CommonConfig CONFIG = CommonConfig.INSTANCE;
 
 	@SubscribeEvent

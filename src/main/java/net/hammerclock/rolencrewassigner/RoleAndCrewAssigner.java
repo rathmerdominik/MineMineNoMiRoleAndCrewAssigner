@@ -1,8 +1,8 @@
-package net.hammerclock.roleassigner;
+package net.hammerclock.rolencrewassigner;
 
-import net.hammerclock.roleassigner.config.CommonConfig;
-import net.hammerclock.roleassigner.event.RoleAssignerEvent;
-import net.hammerclock.roleassigner.event.CrewAssignerEvent;
+import net.hammerclock.rolencrewassigner.config.CommonConfig;
+import net.hammerclock.rolencrewassigner.event.CrewAssignerEvent;
+import net.hammerclock.rolencrewassigner.event.RoleAssignerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -16,12 +16,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(RoleAssigner.PROJECT_ID)
-public class RoleAssigner {
-    public static final Logger LOGGER = LogManager.getLogger(RoleAssigner.PROJECT_ID);
+@Mod(RoleAndCrewAssigner.PROJECT_ID)
+public class RoleAndCrewAssigner {
+    public static final Logger LOGGER = LogManager.getLogger(RoleAndCrewAssigner.PROJECT_ID);
     public static final String PROJECT_ID = "roleassigner";
 
-    public RoleAssigner() {
+    public RoleAndCrewAssigner() {
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST,
                 () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 

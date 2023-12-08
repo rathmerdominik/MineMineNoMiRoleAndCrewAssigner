@@ -1,4 +1,4 @@
-package net.hammerclock.roleassigner.config;
+package net.hammerclock.rolencrewassigner.config;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +12,6 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.LongValue;
 
 public class CommonConfig {
 	public static final Path CONFIG_PATH = Paths.get("config", "mmnm-roleassign-common.toml");
