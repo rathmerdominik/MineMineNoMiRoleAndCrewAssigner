@@ -1,4 +1,6 @@
+Deprecated in favour of the addons [Mine Mine no Mi: Crew Manager](https://github.com/rathmerdominik/mmnm-crew-manager) and [Mine Mine no Mi: Role Assigner](https://github.com/rathmerdominik/mmnm-role-assigner)
 
+---
 <h1 align="center">Role and Crew Assigner</h1>
 
 <p align="center">Role and Crew Assigner is a Minecraft Addon for the popular <a href="https://www.curseforge.com/minecraft/mc-mods/mine-mine-no-mi"> Mine Mine no Mi Mod</a> mod.</p>
